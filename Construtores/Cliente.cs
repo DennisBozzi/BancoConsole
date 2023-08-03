@@ -17,5 +17,10 @@ namespace BancoConsole.Construtores
             this.cpf = cpf;
         }
 
+        public String toString()
+        {
+            return "  Nome:" + nome + "\n  CPF:" + cpf;
+        }
+
     }
 }

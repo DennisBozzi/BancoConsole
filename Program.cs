@@ -25,7 +25,6 @@ namespace BancoConsole
 
         }
 
-
         static void opcoes()
         {
             Console.Clear();
@@ -54,13 +53,13 @@ namespace BancoConsole
                     novaConta();
                     break;
                 case 3:
-                    Console.WriteLine("3");
+                    depositar();
                     break;
                 case 4:
-                    Console.WriteLine("4");
+                    sacar();
                     break;
                 case 5:
-                    Console.WriteLine("5");
+                    consultar();
                     break;
                 case 6:
                     Console.WriteLine("6");
@@ -78,10 +77,10 @@ namespace BancoConsole
         {
             Console.Clear();
             Console.WriteLine(" - Novo Cliente - ");
-            Console.Write("Digite o Nome:");
+            Console.Write("Digite o Nome: ");
             String nome = Console.ReadLine();
 
-            Console.Write("Digite o CPF:");
+            Console.Write("Digite o CPF: ");
             String cpf = Console.ReadLine();
 
             if (!testaCpf(cpf))
@@ -116,9 +115,9 @@ namespace BancoConsole
 
             if (cliente != null) //Caso o cliente seja diferente de null ele continua o cadastro
             {
-                Console.Write("\nDigite o número da conta:");
+                Console.Write("\nDigite o número da conta: ");
                 numero = int.Parse(Console.ReadLine());
-                Console.Write("Digite o saldo da conta:");
+                Console.Write("Digite o saldo da conta: ");
                 saldo = int.Parse(Console.ReadLine());
 
                 Conta novaConta = new Conta(numero, saldo, cliente);
@@ -141,51 +140,99 @@ namespace BancoConsole
         /* ---------------------- Depositar - Sacar - Consultar - Transferir --------------------- */
 
         //Deposita o dinheiro na conta
-        void depositar(int numero, String cpf)
+        static void depositar()
         {
+            Console.Clear();
+
+            Console.WriteLine("Qual o CPF do titular da conta que gostaria de depositar?");
+            String cpf = Console.ReadLine();
 
             Conta conta = testaCpfRetornaConta(cpf);
 
             if (conta != null) //Caso a conta seja diferente de null, continua o deposito
             {
+                Console.WriteLine("Qual o valor que gostaria de depositar?");
+                double valor = double.Parse(Console.ReadLine());
 
+                conta.saldo = conta.saldo + valor;
+
+                Console.WriteLine("\nO novo saldo da conta é de R$: " + conta.saldo + "\nAperte enter para continuar...");
+                Console.ReadKey();
             }
             else //Caso a conta seja null
             {
                 Console.WriteLine("A Conta não foi encontrada. Aperte enter para continuar...");
                 Console.ReadKey();
             }
+            opcoes();
         }
 
         //Saca o dinheiro da conta
-        void sacar(int numero, String cpf)
+        static void sacar()
         {
+            Console.Clear();
+
+            Console.WriteLine("Qual o CPF do titular da conta que gostaria de depositar?");
+            String cpf = Console.ReadLine();
+
             Conta conta = testaCpfRetornaConta(cpf);
 
             if (conta != null) //Caso a conta seja diferente de null, continua o saque
             {
-
+                Console.WriteLine("\nQual o valor que gostaria de sacar? A conta possui o valor de R$" + conta.saldo);
+                double valor = double.Parse(Console.ReadLine());
+                if (conta.saldo > valor)
+                {
+                    conta.saldo = conta.saldo - valor;
+                    Console.WriteLine("O valor foi sacado. A conta agora possui o valor de R$" + conta.saldo + "\nAperte enter para continuar...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("\nA conta não possui esse valor para ser sacado." + "\nAperte enter para continuar...");
+                    Console.ReadKey();
+                }
             }
             else //Caso a conta seja null
             {
                 Console.WriteLine("A Conta não foi encontrada. Aperte enter para continuar...");
                 Console.ReadKey();
             }
-        }//Saca o dinheiro da conta
 
-        void consultar(String cpf)
+            opcoes();
+        }
+
+        static void consultar()
         {
+            Console.Clear();
+
+            Console.WriteLine("Qual o CPF do titular da conta que gostaria de consultar?");
+            String cpf = Console.ReadLine();
+
             Conta conta = testaCpfRetornaConta(cpf);
 
             if (conta != null) //Caso a conta seja diferente de null, continua o saque
             {
+                Console.Clear();
+
+                Console.WriteLine("Dados da conta");
+                Console.WriteLine("Número: " + conta.numero);
+                Console.WriteLine("Saldo: R$" + conta.saldo);
+                Console.WriteLine("Cliente:");
+                Console.WriteLine(conta.Cliente.toString());
+
+                Console.WriteLine("\nAperte enter para continuar...");
+                Console.ReadKey();
+
 
             }
             else //Caso a conta seja null
             {
-                Console.WriteLine("A Conta não foi encontrada. Aperte enter para continuar...");
+                Console.WriteLine("\nA Conta não foi encontrada. Aperte enter para continuar...");
                 Console.ReadKey();
             }
+
+            opcoes();
         }
 
         /* -------------------------- Testes de CPF - Cliente - Contas --------------------------- */
