@@ -184,7 +184,7 @@ namespace BancoConsole
             {
                 Console.WriteLine("\nQual o valor que gostaria de sacar? A conta possui o valor de R$" + conta.saldo);
                 double valor = double.Parse(Console.ReadLine());
-                if (conta.saldo > valor)
+                if (conta.saldo >= valor)
                 {
                     conta.saldo = conta.saldo - valor;
                     Console.WriteLine("O valor foi sacado. A conta agora possui o valor de R$" + conta.saldo + "\nAperte enter para continuar...");
@@ -254,7 +254,7 @@ namespace BancoConsole
                 Console.Write("Valor na conta: R$" + conta.saldo + "\nDigite o valor que gostaria de transferir:");
                 double valor = double.Parse(Console.ReadLine());
 
-                if (conta.saldo > valor) //Caso o valor da conta que irá transferir seja menor que seu saldo
+                if (conta.saldo >= valor) //Caso o valor da conta que irá transferir seja menor que seu saldo
                 {
                     Console.Write("\n\nPara qual conta gostaria de transferir?\nDigite o CPF do titular da conta:");
                     String cpf2 = Console.ReadLine();
