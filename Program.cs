@@ -175,7 +175,7 @@ namespace BancoConsole
         {
             Console.Clear();
 
-            Console.WriteLine("Qual o CPF do titular da conta que gostaria de depositar?");
+            Console.WriteLine("Qual o CPF do titular da conta que gostaria de sacar?");
             String cpf = Console.ReadLine();
 
             Conta conta = testaCpfRetornaConta(cpf);
