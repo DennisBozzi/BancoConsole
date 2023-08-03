@@ -36,6 +36,7 @@ namespace BancoConsole
             Console.WriteLine("4 - Sacar");
             Console.WriteLine("5 - Consultar");
             Console.WriteLine("6 - Transferir");
+            Console.WriteLine("0 - Sair");
             Console.Write("\nEscolha:");
 
             //Função que recolhe a opção do usuário
@@ -62,7 +63,9 @@ namespace BancoConsole
                     consultar();
                     break;
                 case 6:
-                    Console.WriteLine("6");
+                    transferir();
+                    break;
+                case 0:
                     break;
                 default:
                     opcoes();
@@ -202,6 +205,7 @@ namespace BancoConsole
             opcoes();
         }
 
+        //Consulta a conta
         static void consultar()
         {
             Console.Clear();
@@ -211,8 +215,9 @@ namespace BancoConsole
 
             Conta conta = testaCpfRetornaConta(cpf);
 
-            if (conta != null) //Caso a conta seja diferente de null, continua o saque
+            if (conta != null) //Caso a conta seja diferente de null, continua a consulta
             {
+
                 Console.Clear();
 
                 Console.WriteLine("Dados da conta");
@@ -224,7 +229,59 @@ namespace BancoConsole
                 Console.WriteLine("\nAperte enter para continuar...");
                 Console.ReadKey();
 
+            }
+            else //Caso a conta seja null
+            {
+                Console.WriteLine("\nA Conta não foi encontrada. Aperte enter para continuar...");
+                Console.ReadKey();
+            }
 
+            opcoes();
+        }
+
+        //Transfere
+        static void transferir()
+        {
+            Console.Clear();
+            Console.Write("De qual conta gostaria de transferir?\nInsira o CPF do titular da conta:");
+            String cpf = Console.ReadLine();
+
+            Conta conta = testaCpfRetornaConta(cpf);
+
+            if (conta != null) //Caso a conta seja diferente de null, continua o saque
+            {
+                Console.Clear();
+                Console.Write("Valor na conta: R$" + conta.saldo + "\nDigite o valor que gostaria de transferir:");
+                double valor = double.Parse(Console.ReadLine());
+
+                if (conta.saldo > valor) //Caso o valor da conta que irá transferir seja menor que seu saldo
+                {
+                    Console.Write("\n\nPara qual conta gostaria de transferir?\nDigite o CPF do titular da conta:");
+                    String cpf2 = Console.ReadLine();
+                    Conta conta2 = testaCpfRetornaConta(cpf2);
+
+                    if (conta2 != null) //Caso a conta que receberá não seja nula
+                    {
+                        conta.saldo = conta.saldo - valor;
+                        conta2.saldo = conta2.saldo + valor;
+
+                        Console.WriteLine("\nTransferência realizada!");
+                        Console.WriteLine("Saldo conta que transferiu: R$" + conta.saldo);
+                        Console.WriteLine("Saldo conta que recebeu: R$" + conta2.saldo);
+                        Console.WriteLine("\nAperte enter para continuar...");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nA Conta não foi encontrada. Aperte enter para continuar...");
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nSaldo insuficiente na conta. Aperte enter para continuar...");
+                    Console.ReadKey();
+                }
             }
             else //Caso a conta seja null
             {
